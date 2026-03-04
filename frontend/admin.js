@@ -490,21 +490,13 @@ function handleThemeClick(event) {
   syncPreview();
 }
 
-function handleButtonListInput(event) {
-  const card = event.target.closest("[data-button-index]");
+function handleSocialListInput(event) {
+  const card = event.target.closest("[data-social-index]");
   if (!card) return;
-
-  const index = Number(card.dataset.buttonIndex);
-  const field = event.target.dataset.buttonField;
+  const index = Number(card.dataset.socialIndex);
+  const field = event.target.dataset.socialField;
   if (!field) return;
-
-  // Update state only
-  state.settings.buttons[index][field] =
-    field === "enabled" ? event.target.checked : event.target.value;
-
-  // IMPORTANT:
-  // Do NOT re-render the whole buttons list on every keystroke.
-  // This is what causes focus loss + keyboard closing on mobile.
+  state.settings.socialLinks[index][field] = field === "enabled" ? event.target.checked : event.target.value;
   syncPreview();
 }
 
@@ -520,11 +512,16 @@ function handleSocialListClick(event) {
 function handleButtonListInput(event) {
   const card = event.target.closest("[data-button-index]");
   if (!card) return;
+
   const index = Number(card.dataset.buttonIndex);
   const field = event.target.dataset.buttonField;
   if (!field) return;
-  state.settings.buttons[index][field] = field === "enabled" ? event.target.checked : event.target.value;
-  renderButtonRows();
+
+  state.settings.buttons[index][field] =
+    field === "enabled" ? event.target.checked : event.target.value;
+
+  // IMPORTANT: Do NOT re-render the button rows on every keystroke.
+  // Re-rendering recreates inputs and causes mobile keyboards to close.
   syncPreview();
 }
 
