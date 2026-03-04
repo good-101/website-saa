@@ -18,7 +18,8 @@ const {
 } = require("./database");
 
 const PORT = Number(process.env.PORT || 3000);
-const HOST = process.env.HOST || "0.0.0.0";const OWNER_SESSION_COOKIE = "saas_owner_session";
+const HOST = "0.0.0.0";
+const OWNER_SESSION_COOKIE = "saas_owner_session";
 
 const FRONTEND_DIR = path.join(__dirname, "..", "frontend");
 const sessions = new Map();
@@ -462,10 +463,6 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, HOST, () => {
-  const defaultSite = getDefaultSite();
-  console.log(`Server listening at http://${HOST}:${PORT}`);
-  console.log(`Default public site: http://${HOST}:${PORT}/`);
-  console.log(`Primary admin: http://${HOST}:${PORT}/admin?adminSlug=${defaultSite.adminSlug}`);
-  console.log(`Owner dashboard: http://${HOST}:${PORT}/dashboard/login`);
+server.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
 });
