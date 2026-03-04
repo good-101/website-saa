@@ -480,6 +480,16 @@ function renderPreviewButtonMedia(item, accentColor) {
   return `<span class="preview-icon-chip" style="background:${hexToRgba(accentColor, 0.24)}"><svg viewBox="0 0 24 24"><use href="#icon-${iconId}"></use></svg></span>`;
 }
 
+function handleThemeClick(event) {
+  const button = event.target.closest("[data-theme-id]");
+  if (!button) return;
+  syncCurrentThemeFromFields();
+  state.settings.activeThemeId = button.dataset.themeId;
+  loadCurrentThemeColors();
+  renderThemeGrid();
+  syncPreview();
+}
+
 function handleButtonListInput(event) {
   const card = event.target.closest("[data-button-index]");
   if (!card) return;
@@ -495,16 +505,6 @@ function handleButtonListInput(event) {
   // IMPORTANT:
   // Do NOT re-render the whole buttons list on every keystroke.
   // This is what causes focus loss + keyboard closing on mobile.
-  syncPreview();
-}
-
-function handleSocialListInput(event) {
-  const card = event.target.closest("[data-social-index]");
-  if (!card) return;
-  const index = Number(card.dataset.socialIndex);
-  const field = event.target.dataset.socialField;
-  if (!field) return;
-  state.settings.socialLinks[index][field] = field === "enabled" ? event.target.checked : event.target.value;
   syncPreview();
 }
 
